@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-cache: false
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -12,9 +11,9 @@ jobs:
       matrix:
         workspaces:
           - ./
-          - ./
 
     continue-on-error: true
+    
     
 
     steps:
