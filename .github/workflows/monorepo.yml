@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+cache: false
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -11,9 +12,9 @@ jobs:
       matrix:
         workspaces:
           - ./
+          - ./
 
     continue-on-error: true
-    
     
 
     steps:
@@ -34,12 +35,10 @@ jobs:
               pwd
               pushd ${{ matrix.workspaces }}
               yarn cache clean && yarn install
-              yarn add axios @componly/cli@2.0.1 
               popd
           else
               echo "No workspaces to install. Running 'yarn install' in the root directory."
-              yarn cache clean && yarn install
-              yarn add axios @componly/cli@2.0.1 
+             yarn cache clean && yarn install
           fi
       - name: Pre scan.json
         id: pre-scan
@@ -77,7 +76,7 @@ jobs:
             preScan().catch(console.log);
       - name: scan
         id: componly-scan
-        run: npx  componly scan --design-systems-path   ${{ matrix.workspaces }}.componly/ds.json --config-path  ${{ matrix.workspaces }}  --project  ${{ matrix.workspaces }}
+        run: yarn run  componly scan --design-systems-path   ${{ matrix.workspaces }}.componly/ds.json --config-path  ${{ matrix.workspaces }}  --project  ${{ matrix.workspaces }}
 
       - name: Post scan.json
         id: post-scan
